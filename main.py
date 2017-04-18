@@ -9,6 +9,7 @@ try:
     print "Importing Libraries...",
     import cv2 as cv    # OpenCV    
     import numpy as np  # NumPy
+    from OpenCVExtended import *
     import glob
     print " SUCCESS."
     
@@ -22,15 +23,20 @@ def FetchImages ():
     '''
     Fetches all the file names within the Images folder
     '''
-    return glob.glob("Images/*.jpg")
-
+    fns = glob.glob("Images/*.jpg")
+    imgs = [cv.imread(fn) for fn in fns]
+    return imgs
 
 
 if __name__ == '__main__':
-    imageNames = FetchImages()
-    for fn in imageNames:
-        img = cv.imread(fn)
-        cv.imshow("Current Image",img)
-        cv.waitKey(1)
-    print cv.__version__
+    image = FetchImages()[0]
+    bw_image = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
+    g_img = cv.GaussianBlur(bw_image,(3,3),1.0)
+    at_img = cv.adaptiveThreshold(g_img, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 15, 3)
+    cl_img = cv.morphologyEx(at_img,cv.MORPH_CLOSE, cv.getStructuringElement((3,3)))
+    
+    imagesToPhalanx = [image,bw_image,at_img]
+    cv.imshow("Result",ImagePhalanx(RescaleAllImagesToHeight(imagesToPhalanx, 500), 2))
+    cv.waitKey(0)
+    cv.destroyAllWindows()
     
