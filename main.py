@@ -32,8 +32,7 @@ if __name__ == '__main__':
     image = FetchImages()[0]
     bw_image = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
     g_img = cv.GaussianBlur(bw_image,(3,3),1.0)
-    at_img = cv.adaptiveThreshold(g_img, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 15, 3)
-    cl_img = cv.morphologyEx(at_img,cv.MORPH_CLOSE, cv.getStructuringElement((3,3)))
+    at_img = cv.adaptiveThreshold(g_img, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 21, 3)
     
     imagesToPhalanx = [image,bw_image,at_img]
     cv.imshow("Result",ImagePhalanx(RescaleAllImagesToHeight(imagesToPhalanx, 500), 2))
