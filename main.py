@@ -310,11 +310,9 @@ if __name__ == '__main__':
     
     for idx,col in enumerate(resultingKColour):
         extractedResult.append(GetBestResultForSample(CombiInOrder[idx],col))
-        
+
     displayKmeans = ImageVertigo([ StitchSample(es,rkc) for (es,rkc) in zip(extractedSamples,resultingKColour)],3)
     displayResults = ImageVertigo([ StitchExtractedResult(x,y,z) for x,y,z in extractedResult],4)
     
     talliedDisplay = ImagePhalanx([image,ImageNaming(displayKmeans,"RAW & EXT"),ImageVertigo([GenerateCombiCatalog(),displayResults])],8)
     DebugPointer(talliedDisplay)
-    
-     

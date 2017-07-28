@@ -69,11 +69,12 @@ def ImageNaming (image, text, text_scale= 1.0,color = (255,255,255)):
     '''
     Prints the given text on top of the an image.
     '''
-    boxpadding = (20.0) * (text_scale / 1.0)
+    boxpadding = int(np.ceil((20.0) * (text_scale / 1.0)))
     h, w = image.shape[:2]
-    returnImage = np.zeros((h+boxpadding,w,3),np.uint8)
+    h2 = h+boxpadding
+    returnImage = np.zeros((h2,w,3),np.uint8)
     img = image if image.ndim == 3 else cv.cvtColor(image,cv.COLOR_GRAY2BGR)
-    returnImage[boxpadding:h+boxpadding,0:w] = img
+    returnImage[boxpadding:h2,0:w] = img
     cv.putText(returnImage,text,(3,int(boxpadding-5)),cv.FONT_HERSHEY_PLAIN,text_scale,color) 
     return returnImage
 
